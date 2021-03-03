@@ -1,0 +1,42 @@
+#!/bin/bash
+
+folder=$(pwd | sed -E 's|^.*/||')
+
+langs='py cpp'
+
+found=0
+for lang in $langs
+do
+    if [[ -f $folder.$lang ]]
+    then
+        let found++
+    fi
+done
+
+if [[ $found -eq 0 ]]
+then
+    echo "Error: no source files found"
+elif [[ $found -eq 1 ]]
+then
+    for lang in $langs
+    do
+        if [[ -f $folder.$lang ]]
+        then
+            kattis $folder.$lang
+            break
+        fi
+    done
+else
+    if [[ $# -eq 0 ]]
+    then
+        echo "Error: multiple source files found, please specify language(s):" $langs
+    else
+        for lang
+        do
+            if [[ -f $folder.$lang ]]
+            then
+                kattis $folder.$lang
+            fi
+        done
+    fi
+fi

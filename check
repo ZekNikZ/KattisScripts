@@ -1,0 +1,30 @@
+#!/bin/bash
+
+if [[ $# -eq 0 ]] ||  [[ $# -gt 2 ]]
+then
+    echo 'Usage: check [lang] <testid>'
+    exit 1
+fi
+
+# Determine which language to use
+if [[ $# -eq 2 ]]
+then
+    lang=$1
+    shift
+else
+    lang=py
+fi
+
+# Check the output
+case $lang in
+    py)
+        cat ./test-cases/$1.in | python3 *.py | diff --unified=5 ./test-cases/$1.ans - | ydiff -s --wrap
+    ;;
+    cpp)
+        cat ./test-cases/$1.in | z++ *.cpp | diff --unified=5 ./test-cases/$1.ans - | ydiff -s --wrap
+    ;;
+    *)
+        echo 'Invalid language'
+        exit 1
+    ;;
+esac

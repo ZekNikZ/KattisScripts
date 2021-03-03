@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [[ $# -eq 0 ]]
+then
+    echo "Error: no input files provided."
+    exit 1
+fi
+
+ofname=$(echo "$1" | sed 's/\.cpp//')
+
+g++ -std=c++11 "$@" -o "$ofname" && ./$ofname
+
+rm $ofname

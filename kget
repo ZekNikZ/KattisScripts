@@ -1,0 +1,23 @@
+#!/bin/bash
+
+if [[ $# -eq 0 ]]
+then
+    echo 'Usage: kget <problem> [problem...]'
+    exit 1
+fi
+
+for problem
+do
+    if [[ -d $problem ]]
+    then
+        echo $problem folder already exists
+    else
+        echo creating $problem folder
+        mkdir $problem
+        mkdir $problem/test-cases
+        curl -L "$(cat ~/.kattisrc | grep hostname | awk '{print $2}')/problems/$problem/file/statement/samples.zip" --output $problem/test-cases/samples.zip
+        unzip $problem/test-cases/samples.zip -d $problem/test-cases
+        rm $problem/test-cases/samples.zip
+        touch $problem/$problem.py
+    fi
+done
