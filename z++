@@ -8,6 +8,6 @@ fi
 
 ofname=$(echo "$1" | sed 's/\.cpp//')
 
-g++ -std=c++11 "$@" -o "$ofname" && ./$ofname
+g++ -std=c++17 "$@" -o "$ofname" && ./$ofname
 
 rm $ofname
